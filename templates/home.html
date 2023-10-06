@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+
+{% block script %}
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        const yeardata = {{ yeardata | tojson }};
+        const monthdata = {{ monthdata | tojson }};
+        const months = {{ months | tojson }};
+        const types = {{ types | tojson }};
+        var year = {{ year | tojson }};
+        var month = {{ month | tojson }};
+    </script>
+    <script src="/static/home.js"></script>
+{% endblock %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block name %}
+    {{ username }}
+{% endblock %}
+
+{% block body %}
+    <div class="header anurati mt6">HOME</div>
+
+    <form action="/" method="POST">
+        <table class="expense mt-3">
+            <tr>
+                <td>
+                    <select class="form-select" id="year" name="year" autocomplete="off">
+                        <option disabled selected value="">Year</option>
+                        {% for row in years %}
+                            <option value="{{ row }}">{{ row }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+                <td class="text-center"><button class="btn btn-dark anurati" disabled id="filter" type="submit"><span class="firstchar">S</span>EARCH</button></td>
+            </tr>
+        </table>
+    </form>
+
+    <table class="container mt-3">
+        <tr>
+            <td>
+                <div class="chart1" id="gchartyear"></div>
+                <div class="text-center textchart1"><b>{{ sign }} {{ "%.2f" | format(yeartotal) }}</b></div>
+            </td>
+            <td>
+                <div class="chart2" id="gchartmonth"></div>
+                <div class="text-center textchart2"><b>{{ sign }} {{ "%.2f" | format(monthtotal[month-1]) }}</b></div>
+            </td>
+        </tr>
+    </table>
+
+    <table class="container table table-striped border-thin-black mt3 mb3">
+        <tr>
+            <td class="borderR-thin-black text-center bgb-tw"><b>{{ year }}</b></td>
+            {% for row in months %}
+                <td class="borderR-thin-black text-center"><b>{{ row.month }}</b></td>
+            {% endfor %}
+        </tr>
+        {% for i in range(types | length) %}
+            <tr>
+                <td class="borderR-thin-black"><b>{{ types[i] }}</b></td>
+                {% for month in monthdata %}
+                    <td class="borderR-thin-black text-end">{{ "%.2f" | format(monthdata[month][i]) }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        <tr>
+            <td class="borderR-thin-black bgb-tw"><b>Total in {{ sign }}</b></td>
+            {% for row in monthtotal %}
+                <td class="borderR-thin-black text-end"><b>{{ "%.2f" | format(row) }}</b></td>
+            {% endfor %}
+        </tr>
+    </table>
+{% endblock %}

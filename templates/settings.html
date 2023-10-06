@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Settings
+{% endblock %}
+
+{% block name %}
+    {{ username }}
+{% endblock %}
+
+{% block body %}
+    <div class="header anurati mt6">SETTI NGS</div>
+
+    <form action="/settings" method="POST">
+        <table class="expense mt-3">
+            <tr><td class="text-center"><b>Change Display Name</b></td></tr>
+            <tr><td class="text-center">Currently <b>{{ username }}</b></td></tr>
+            <tr><td><input class="form-control mx-auto w-auto" name="name" placeholder="New Display Name" type="text" autocomplete="off"></td></tr>
+        </table>
+
+        <table class="expense mt-3">
+            <tr><td class="text-center"><b>Change Preferred Currency</b></td></tr>
+            <tr><td class="text-center">Currently <b>{{ iso }}</b></td></tr>
+            <tr>
+                <td>
+                    <select class="form-select" name="currency" autocomplete="off">
+                        <option disabled selected value="">ISO (Currency)</option>
+                        {% for row in currencyl %}
+                            <option {% if row.iso == iso %}disabled{% endif %} value="{{ row.id }}">{{ row.iso }} ({{ row.currency }})</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+        </table>
+
+        <table class="expense mt-3">
+            <tr><td class="text-center"><b>Change Password</b></td></tr>
+            <tr><td><input class="form-control mx-auto w-auto" name="password" placeholder="Current Password" type="password" autocomplete="off"></td></tr>
+            <tr><td><input class="form-control mx-auto w-auto" name="passwordn" placeholder="New Password" type="password" minlength="6" autocomplete="off"></td></tr>
+            <tr><td><input class="form-control mx-auto w-auto" name="confirmation" placeholder="Confirm New Password" type="password" autocomplete="off"></td></tr>
+        </table>
+
+        <table class="expense mt-3">
+            <tr><td class="text-center"><button class="btn btn-dark anurati" type="submit"><span class="firstchar">U</span>PDA TE</button></td></tr>
+        </table>
+    </form>
+
+    {% if get_flashed_messages() %}
+        <ul class="flash mt-3 mb-0 mx-auto">
+            {% for message in get_flashed_messages() %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

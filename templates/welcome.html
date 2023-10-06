@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <!-- Bootstrap 5.3.1 -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
+        <link href="/static/styles.css" rel="stylesheet">
+        <link href="/static/welcome.css" rel="stylesheet">
+        <script src="/static/script.js"></script>
+
+        <!-- Generated at https://www.favicon.cc/ -->
+        <link href="/static/favicon.ico" rel="icon">
+        <title>YPET - {% block title %}{% endblock %}</title>
+
+    </head>
+
+    <body>
+
+        <div>
+            <div class="banner-bg"></div>
+            <div class="banner anurati">
+                <span class="firstchar">Y</span>OUR
+                <span class="firstchar">P</span>ERSONAL<br>
+                <span class="firstchar">E</span>XPENSE
+                <span class="firstchar">T</span>RACKER
+            </div>
+        </div>
+
+        <div class="main">
+            <div class="mb-3 anurati welcome">WELCOME</div>
+            {% block body %}{% endblock %}
+            {% if get_flashed_messages() %}
+                <ul class="flash mt-3 mb-0">
+                    {% for message in get_flashed_messages() %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+        <div class="footer p-2">
+            <span class="anurati">YPE T</span> by Woon Zhen Fei
+        </div>
+
+    </body>
+
+</html>

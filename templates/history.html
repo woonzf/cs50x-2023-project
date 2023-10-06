@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+
+{% block script %}
+    <script src="/static/history.js"></script>
+{% endblock %}
+
+{% block title %}
+    History
+{% endblock %}
+
+{% block name %}
+    {{ username }}
+{% endblock %}
+
+{% block body %}
+    <div class="header anurati mt6">HI STORY</div>
+
+    <form action="/history" method="POST">
+        <table class="expense mt-3">
+            <tr>
+                <td colspan="3">
+                    <select class="form-select" autocomplete="off">
+                        <option disabled selected value="">Expense</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <select class="form-select" id="year" name="year" autocomplete="off">
+                        <option disabled selected value="">Year</option>
+                        {% for row in years %}
+                            <option value="{{ row.year }}">{{ row.year }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+                <td>
+                    <select class="form-select" disabled id="month" name="month" autocomplete="off">
+                        <option disabled selected value="">Month</option>
+                        {% for row in months %}
+                            <option value="{{ row.id }}">{{ row.month }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+                <td class="text-center"><button class="btn btn-dark anurati" disabled id="filter" type="submit"><span class="firstchar">F</span>I LTER</button></td>
+            </tr>
+        </table>
+    </form>
+
+    {% if get_flashed_messages() %}
+        <ul class="flash mb-0 mx-auto">
+            {% for message in get_flashed_messages() %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <div class="text-center mt-3">Showing <b>{{ month }} {{ year }}</b></div>
+    <div class="container-fluid history">
+        <table class="table table-striped">
+            <thead>
+                <th class="text-start">Date</th>
+                <th class="text-start">Type</th>
+                <th class="text-start">Description</th>
+                <th class="text-end">Amount in {{ iso }}</th>
+            </thead>
+            <tbody>
+                {% for row in expenses %}
+                <tr>
+                    <td class="text-start">{{ row.date }}</td>
+                    <td class="text-start">{{ row.type }}</td>
+                    <td class="text-start">{{ row.description }}</td>
+                    <td class="text-end">{{ "%.2f" | format(row.amount) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td class="text-end fw-bold border-0" colspan="3">TOTAL</td>
+                    <td class="text-end border-0"><b>{{ sign }} {{ "%.2f" | format(expenses | sum(attribute='amount')) }}</b></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+{% endblock %}
